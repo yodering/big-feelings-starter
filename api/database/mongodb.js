@@ -50,6 +50,12 @@ const client = new MongoClient(uri, {
         strict: true,
         deprecationErrors: true,
     },
+    tls: true,
+    maxPoolSize: 10,
+    minPoolSize: 0,
+    maxIdleTimeMS: 10000,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
 });
 
 // Create remote connection to database server
