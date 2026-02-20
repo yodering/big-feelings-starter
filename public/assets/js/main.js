@@ -5,10 +5,10 @@
 //////////////////////////////////////
 
 // base url for 10.3
-let baseurl = "https://big-feelings.vercel.app";
+// let baseurl = "https://big-feelings.vercel.app";
 
 // 👉 add new base url to pull from your own database (Chapter 10 wiki) ...
-
+let baseurl = "";
 // 👈
 
 
@@ -17,9 +17,9 @@ let data = [];
 
 async function main() {
     // 👉 add code inside this function (Chapter 10) ...
-
-
-
+    let data = await fetchFeelings();
+    console.log(data);
+    await updateMap(data);
     // 👈
 }
 main();
@@ -67,8 +67,27 @@ async function fetchData(url) {
 function submitForm(e) {
     try {
         // 👉 add code inside this function (Chapter 10 wiki) ...
-
+        e.preventDefault();
+        let data = getFormData();
+        // console.log(data);
         
+        fetch(baseurl + "/api/feeling", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("submitForm() response:", data);
+            showSuccessMsg("Your feeling has been added!", "white");
+            updateMap(data);
+        })
+        .catch(err => {
+            console.error("Error:", err);
+            showSuccessMsg("Error adding feeling", "white");
+        });
         // 👈
     } catch (e) {
         showSuccessMsg("Please add a feeling and select a location", "white");
